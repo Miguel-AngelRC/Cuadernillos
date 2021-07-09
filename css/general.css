@@ -3,6 +3,7 @@ body{
     margin: 0px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: #333333;
+    background-color: #fafafa;
 }
 
 /*Simular cabecera*/
@@ -25,7 +26,7 @@ section{
     margin: 20px auto ;
     width: 80%;
     padding: 5%;
-    background-color: #fafafa;
+    background-color: white;
     box-shadow: rgba(0, 0, 0, 0.562) -1px -1px 10px;
 }
 
@@ -45,7 +46,16 @@ p{
     font-size: 1em;
 }
 
-/**listas*/
+/**************************
+** Estilos para imágenes **
+**************************/
+figure{
+    text-align: center;
+}
+
+/***********************
+** Estilos para listas **
+************************/
 ul, ol{
     box-sizing: border-box;
     padding: 5px 5% 5px 10%;
@@ -56,9 +66,7 @@ li{
     padding: 5px;
 }
 
-/**************************************
-**Lista de preguntas y respuestas    **
-**************************************/
+/*Lista de preguntas y respuestas*/
 .listaPreguntas {
     padding: 5px 5% 5px 5%;
 } 
@@ -74,9 +82,30 @@ li{
     list-style-type: none;
 }
 
-/***********************
-** Botón              **
-************************/
+.respuestas textarea{
+    overflow: visible;
+    padding: 5px;
+    border:none;
+    border-radius: 3px;
+    background-color: #fafafa;
+    resize: vertical;
+    height: 60px;
+    min-height: 40px;
+    max-height: 300px;
+    width: 85%;
+    box-shadow: rgba(0, 0, 0, 0.438) 1px 1px 3px;
+    color: #333333;
+}
+
+.respuestas textarea:focus{
+    height: 80px;
+    margin-left: 10px;
+    outline: none ;
+    box-shadow: rgba(0, 0, 0, 0.842) 1px 1px 10px;
+}
+/**********************************
+** Estilos para Botón  finalizar **
+**********************************/
 .btnRes{
     margin: 0px 0px 0px 5%;
     height: 30px;
@@ -97,4 +126,63 @@ li{
     border: none;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.664);
     cursor: pointer;
+}
+
+/*************************************
+** Estilos para resultados del test **
+**************************************/
+
+/** 1) Estilos para mostrar/ocultar el estado de la respuesta (el valor que contiene esa respuesta) */
+.respuesta  div {
+    display: none;
+}
+
+.respuesta .estadoRespuesta {
+    display: inline-block;
+    margin: 0px 20px;
+    padding: 1px 10px;
+    border-radius: 5px;
+    font-size: .9em;
+    color: rgb(255, 255, 255);
+    background-color: rgba(40, 236, 105, 0.822);
+}
+
+/** 2) Estilos para el estado de la pregunta (respondida, no respondida y limite de respuestas) */
+.listaPreguntas li div{
+    display: none;
+}
+
+.listaPreguntas li .sinRespuesta{
+    display: inline-block;
+    margin: 0px 20px;
+    padding: 1px 10px;
+    border-radius: 5px;
+    font-size: .9em;
+    color: rgb(255, 255, 255);
+}
+
+.listaPreguntas li  .respondida{
+    display: inline-block;
+    margin: 0px 20px;
+    padding: 1px 10px;
+    border-radius: 5px;
+    font-size: .9em;
+    color: rgb(255, 255, 255);
+}
+
+
+/***********************
+** Área de resultado     **
+************************/
+.testNoTerminado{
+    border-radius: 3px;
+    padding: 6px;
+    background-color: #FF4646;
+    color: white;
+}
+
+.testTerminado{
+    margin: 5% 5%;
+    background-color: none;
+    color: black;
 }

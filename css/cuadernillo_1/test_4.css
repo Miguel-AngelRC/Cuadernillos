@@ -1,0 +1,74 @@
+/***********************
+** Área de resultado     **
+************************/
+
+/*Estilo basico para resultados*/
+#test4_resultado p{
+    margin: 2% auto;
+    padding: 6px;
+    border-radius: 3px;
+    height: 20px;
+    width: 180px;
+    text-align: center;
+    color: white;
+    background: #FFCC29;
+}
+
+#test4_resultado #resulMax {
+    margin:  0px;
+    padding: 0px;
+    text-align: center;
+}
+
+#test4_resultado #resulMax p{
+    display: inline-block;
+    margin: 2% 5%;
+    background: #FF4646;
+}
+
+/**Estilo para texto mostrado abajo del resultado*/
+#test4_resultado .resaltar {
+    margin: 2% auto;
+    padding: 6px;
+    border-radius: 5px;
+    border: solid 2px #FFCC29;
+    height: initial;
+    width: initial;
+    text-align: justify;
+    color: black;
+    background-color: initial;
+}
+
+#test4_resultado .resaltar span{
+    display: block;
+    margin: 2% auto;
+    padding: 6px 10px;
+    border-radius: 5px;
+    width: min-content;
+    background:  #FFCC29;
+    text-align: center;
+    color: white;
+}
+
+#test4_resultado .noResaltar span{
+    display: block;
+    margin: 2% auto;
+    padding: 6px 10px;
+    border-radius: 5px;
+    width: min-content;
+    background:  #0A81AB;
+    text-align: center;
+    color: white;
+}
+
+#test4_resultado .noResaltar {
+    margin: 2% auto;
+    padding: 6px;
+    border-radius: 5px;
+    border: solid 2px #0A81AB;
+    height: initial;
+    width: initial;
+    text-align: justify;
+    color: black;
+    background-color: initial;
+}

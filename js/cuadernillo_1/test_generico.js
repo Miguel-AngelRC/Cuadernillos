@@ -11,18 +11,25 @@
   preguntas.forEach((preguntaActual, numeroDePregunta) => {
     const respuestas = []; 
 
-    //recorrer json de respuestas por cada pregunta
-    for (letraRespuesta in preguntaActual.respuestas) {
-        
-        //almacena cada respuesta en forma de imputs (radio o checkbox) dentro de una lista HTML
-        //también se agrega un div para mostrar el estado de la espuesta
-        respuestas.push(
-        `<li class="respuesta">
-            <input class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}"  } />
-            ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta][0]}
-            <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
-        </li>`
-      );
+    if(preguntaActual.tipoRespuesta !== "text"){
+        //recorrer json de respuestas por cada pregunta
+        for (letraRespuesta in preguntaActual.respuestas) {
+            
+            //almacena cada respuesta en forma de imputs (radio o checkbox) dentro de una lista HTML
+            //también se agrega un div para mostrar el estado de la espuesta
+            respuestas.push(
+            `<li class="respuesta">
+                <input class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}"  } />
+                ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta][0]}
+                <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
+            </li>`
+            );
+        }
+    }else{
+        respuestas.push( `<li class="respuesta">
+                                <textarea class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" placeholder="Escribe tu respuesta" maxlength="2500"></textarea>
+                                <div id="${numTest}_estadoRespuesta${numeroDePregunta}"></div> 
+                        </li>`);
     }
     
     //Almacena la pregunta con el arreglo de las respuesta en formato HTML
@@ -47,6 +54,7 @@
 function validarRespuestas(preguntas,numTest,mostrarValor) {
   let valoresDeRespuestas = []  
   let testCompletado = true; //true => Test completado, false => Test incompleto
+  let preguntasAbiertas = false;//false =>  opcion multiple, true => abiertas
 
   //Se recorre el arreglo que almacena el cuestionario
   preguntas.forEach((preguntaActual, numeroDePregunta) => {
@@ -63,11 +71,12 @@ function validarRespuestas(preguntas,numTest,mostrarValor) {
             respuestaElegida = e.value; //obtiene el inciso (a,b,c...)
 
             if(e.checked == true){     //verifica si fue seleccionada
-
-                let valor = preguntaActual.respuestas[respuestaElegida][1]; //obtiene el valor de la pregunta
-                valoresDeRespuestas.push(valor); //agrega el valor de la pregunta segun la respuesta
-                
                 bandera = true;
+                let valor = preguntaActual.respuestas[respuestaElegida][1]; //obtiene el valor de la pregunta
+                if (valor)
+                    valoresDeRespuestas.push(valor); //agrega el valor de la pregunta segun la respuesta
+                else
+                    valor = "✔";
 
                 // Lineas de código para colocar el valor de la pregunta a lado de la respuesta seleccionada
                 let elemento = document.getElementById(`${numTest}_estadoRespuesta`+numeroDePregunta+respuestaElegida);
@@ -92,7 +101,7 @@ function validarRespuestas(preguntas,numTest,mostrarValor) {
             testCompletado = false;
         } 
 
-    }else{ // tipo checkbox (multiples respuestas)       
+    }else if (preguntaActual.tipoRespuesta === "checkbox") { // tipo checkbox (multiples respuestas)       
         let limite_respuestas = preguntaActual.limite;
         let num_respuestas = 0;
 
@@ -140,13 +149,45 @@ function validarRespuestas(preguntas,numTest,mostrarValor) {
                 estadoRespuesta(pregunta,"sinRespuesta","Elige una respuesta","error");
                 testCompletado =false;
             }
+    }else {// preguntas abiertas     
+        preguntasAbiertas = true;
+
+        //recorrer el objeto de las respuestas
+        checks.forEach((e)=>{
+
+            if(e.value){     //verifica si fue respondida
+                bandera = true;
+                valoresDeRespuestas.push(e.value); //agrega el valor de la pregunta segun la respuesta
+
+                // Lineas de código para colocar el valor de la pregunta a lado de la respuesta seleccionada
+                let elemento = document.getElementById(`${numTest}_estadoRespuesta`+numeroDePregunta);
+                estadoRespuesta(elemento,"estadoRespuesta","✔","bien2");                            
+                
+            }else{ //limpiar valor de la pregunta a lado de la respuesta
+                let elemento = document.getElementById(`${numTest}_estadoRespuesta`+numeroDePregunta);
+                estadoRespuesta(elemento,"","","");
+            }
+        });
+
+        //Lineas de código para mostrar el estado de la pregunta (respondida o no respondida)
+        let pregunta = document.getElementById(`${numTest}_estadoPregunta`+numeroDePregunta);
+
+        if(bandera)
+            estadoRespuesta(pregunta,"respondida","Listo","bien");
+        else{
+            estadoRespuesta(pregunta,"sinRespuesta","Escribe tu respuestas","error");
+            testCompletado = false;
+        } 
     }
+
+
   });
 
-  console.log("------------------------------------")
-  
     if(testCompletado){
-        return estructurarresultado(valoresDeRespuestas);;
+        if(preguntasAbiertas)
+            return valoresDeRespuestas; // se envia sin eliminar los repetidos (si los hubiera en las respuestas abiertas)
+        else    
+            return estructurarresultado(valoresDeRespuestas);  //elimina y estructura repetidos
     }else
         return null;
 }
@@ -228,10 +269,10 @@ function getValor(obj,valores){
 //////
 function mostrarResultado(respuestas_Formato, div_resultado, mensaje,  numTest){
     if (respuestas_Formato){        
-        div_resultado.className="";
-        div_resultado.innerHTML = "<div> " + mensaje + respuestas_Formato + "</div>";
+        div_resultado.className="testTerminado";
+        div_resultado.innerHTML = mensaje + respuestas_Formato ;
       }else{
-        div_resultado.className=`${numTest}_resultado`;
+        div_resultado.className= "testNoTerminado";
         div_resultado.innerHTML = " <div> Debes de terminar el test para guardar las respuestas </div>"
         }
 }
@@ -248,8 +289,6 @@ function formatoImprimirResultado (resultado){
     }else
         return null;
 }
-
-
 
 ///////////////////////////////////////////////////////////
 // estadoRespuesta() -> Cambia el color y texto de un 
@@ -272,3 +311,4 @@ function estadoRespuesta (elemento, clase, texto,estado){
         break;
     }     
 }
+

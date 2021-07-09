@@ -665,6 +665,9 @@ test2_botonRes.addEventListener("click", valida_test2);
 //Funcion para validar resultados
 function valida_test2(){
     let respuestas = validarRespuestas (test2_preguntas,numtest2,true);
+
+    //limpiar nulos
+
     let respuestas_Formato = formatoImprimirResultado_test2(respuestas);
     let mensaje = "Frecuencia en los resultados:";
 
@@ -678,6 +681,7 @@ function formatoImprimirResultado_test2 (resultado){
         if (resultado){        
             let max;
 
+            
             for (i in resultado){
                 max = resultado[i];
                 break;

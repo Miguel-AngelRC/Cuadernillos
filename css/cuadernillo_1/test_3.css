@@ -1,79 +1,6 @@
-/************************************************************************/
-/** 1) Estilos para el estado de la respuesta (mostrar tipo de aprendizaje) */
-.test3_listaRespuestas .respuesta  div {
-    display: none;
-
-}
-
-.test3_listaRespuestas .respuesta .estadoRespuesta {
-    display: inline-block;
-    margin: 0px 20px;
-    padding: 1px 10px;
-    border-radius: 5px;
-    font-size: .9em;
-    color: rgb(255, 255, 255);
-    background-color: rgba(40, 236, 105, 0.822);
-}
-/************************************************************************/
-
-
-/************************************************************************/
-/** 2) Estilos para el estado de la pregunta (respondida, no respondida y limite de respuestas) */
-.test3_listaPreguntas li div{
-    display: none;
-}
-
-.test3_listaPreguntas .sinRespuesta{
-    display: inline-block;
-    margin: 0px 20px;
-    padding: 1px 10px;
-    border-radius: 5px;
-    font-size: .9em;
-    color: rgb(255, 255, 255);
-}
-
-.test3_listaPreguntas .respondida{
-    display: inline-block;
-    margin: 0px 20px;
-    padding: 1px 10px;
-    border-radius: 5px;
-    font-size: .9em;
-    color: rgb(255, 255, 255);
-}
-
-/************************************************************************/
-
-
-/***********************
-** Área de tablas       **
-************************/
-table{
-    margin: 50px 0px;
-}
-
-td{
-    box-sizing: border-box;
-    padding: 5px 10px;
-    text-align: justify;
-    font-size: 1em;
-}
-
-
 /***********************
 ** Área de resultado     **
 ************************/
-#test3_resultado.test3_resultado{
-    border-radius: 3px;
-    padding: 6px;
-    background-color: #FF4646;
-    color: white;
-}
-
-#test3_resultado{
-    margin: 5% 5%;
-    background-color: none;
-    color: black;
-}
 
 /*Estilo basico para resultados*/
 #test3_resultado p{
@@ -81,12 +8,12 @@ td{
     border-radius: 3px;
     height: 20px;
     text-align: center;
-    width: 120px;
+    width: 180px;
     color: white;
 }
 
 #test3_resultado #resulMax {
-    margin: 0px;
+    margin:  0px;
     padding: 0px;
     text-align: center;
 }
@@ -97,9 +24,33 @@ td{
     background: #FF4646;
 }
 
-
 #test3_resultado p{
     margin: 2% auto;
     background: #FFCC29;
 }
+
+#test3_texto p {
+    display: none;
+}
+
+#test3_texto p span {
+    font-weight: bold;
+}
+
+#test3_texto p{
+    padding: 2%;
+   
+}
+
+#test3_texto .resaltar{
+    display: block;
+    border-radius: 5px;
+    border: solid 2px #ff4646;
+}
+
+
+#test3_texto .noResaltar{
+    display: block;
+}
+
 
