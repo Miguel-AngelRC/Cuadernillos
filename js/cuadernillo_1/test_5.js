@@ -65,7 +65,7 @@ test5_botonRes.addEventListener("click", valida_test5);
 //Funcion para validar resultados
 function valida_test5(){
     let respuestas = validarRespuestas (test5_preguntas,numtest5,false);
-    let respuestas_Formato = formatoImprimirResultado(respuestas);
+    let respuestas_Formato = formatoImprimirResultado_test5(respuestas);
     let mensaje = "Tus respuestas:";
 
     mostrarResultado(respuestas_Formato, test5_resultado, mensaje, numtest5);
@@ -73,7 +73,7 @@ function valida_test5(){
 
 // (6) 
 //Funcion personalizada para formato de impresion del test5
-function formatoImprimirResultado (resultado){
+function formatoImprimirResultado_test5 (resultado){
     if (resultado){        
         let res = "";
         for(valor in  resultado)

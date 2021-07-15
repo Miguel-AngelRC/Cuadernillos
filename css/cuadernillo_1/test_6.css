@@ -1,0 +1,24 @@
+/***********************
+** Área de resultado     **
+************************/
+
+/*Estilo basico para resultados*/
+#test5_resultado p{
+    margin: 2% 0px 2% 5%;
+    padding: 10px;
+    border-radius: 3px;
+    width: 85%;
+    text-align: justify;
+    box-shadow: rgba(0, 0, 0, 0.438) 1px 1px 3px;
+    color: inherit;
+}
+
+
+
+.textAreaOculto{
+    display: none;
+}
+
+.textAreaMostrar{
+    display: block;
+}

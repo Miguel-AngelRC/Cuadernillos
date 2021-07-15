@@ -1,3 +1,14 @@
+///////////////////////////////////////////////////////////
+// addInput() -> oculta o muestra los textArea con ayuda 
+// de clases css
+//////
+function addInput(idRespuesta, v){
+    let input = document.getElementById(idRespuesta);
+    if (v)
+        input.className = "textAreaMostrar";
+    else
+        input.className = "textAreaOculto";
+}
 
 ///////////////////////////////////////////////////////////
 // mostrar_test() -> Coloca el formulario en la página
@@ -10,8 +21,9 @@
   //Se recorre el arreglo que almacena el cuestionario
   preguntas.forEach((preguntaActual, numeroDePregunta) => {
     const respuestas = []; 
+    let tipoRespuesta = preguntaActual.tipoRespuesta;
 
-    if(preguntaActual.tipoRespuesta !== "text"){
+    if( tipoRespuesta == "radio" || tipoRespuesta == "checkbox"){
         //recorrer json de respuestas por cada pregunta
         for (letraRespuesta in preguntaActual.respuestas) {
             
@@ -25,11 +37,39 @@
             </li>`
             );
         }
-    }else{
+    }else if (tipoRespuesta == "text"){
         respuestas.push( `<li class="respuesta">
                                 <textarea class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" placeholder="Escribe tu respuesta" maxlength="2500"></textarea>
                                 <div id="${numTest}_estadoRespuesta${numeroDePregunta}"></div> 
                         </li>`);
+
+    }else if (tipoRespuesta == "radioText"){
+        
+         //recorrer json de respuestas por cada pregunta
+         for (letraRespuesta in preguntaActual.respuestas) {
+
+            if (letraRespuesta == "a"){
+                let funcionMostrar =  "onClick = 'addInput(\""+numTest + "_respuesta" + numeroDePregunta +"a\" ,true)'";
+                
+
+                respuestas.push( `<li class="respuesta">
+                                    <input  class="${numTest}_check${numeroDePregunta}" type="radio" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}"  ${funcionMostrar} />
+                                    ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]}
+                                    
+                                    <textarea id="${numTest}_respuesta${numeroDePregunta}${letraRespuesta}" class="textAreaOculto" type="text" placeholder="Escribe tu respuesta" maxlength="2500"></textarea>
+
+                                    <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
+                                </li>`);
+            }else{
+                let funcionOcultar =  "onClick = 'addInput(\""+numTest + "_respuesta" + numeroDePregunta +"a\" ,false)'";
+                    respuestas.push( `<li class="respuesta">
+                                    <input class="${numTest}_check${numeroDePregunta}" type="radio" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}" ${funcionOcultar} } />
+                                    ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]}
+
+                                    <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
+                                </li>`);
+            }
+         }
     }
     
     //Almacena la pregunta con el arreglo de las respuesta en formato HTML
@@ -149,7 +189,7 @@ function validarRespuestas(preguntas,numTest,mostrarValor) {
                 estadoRespuesta(pregunta,"sinRespuesta","Elige una respuesta","error");
                 testCompletado =false;
             }
-    }else {// preguntas abiertas     
+    }else if (preguntaActual.tipoRespuesta === "text"){// preguntas abiertas     
         preguntasAbiertas = true;
 
         //recorrer el objeto de las respuestas
@@ -176,6 +216,46 @@ function validarRespuestas(preguntas,numTest,mostrarValor) {
             estadoRespuesta(pregunta,"respondida","Listo","bien");
         else{
             estadoRespuesta(pregunta,"sinRespuesta","Escribe tu respuestas","error");
+            testCompletado = false;
+        } 
+    } else if(preguntaActual.tipoRespuesta === "radioText"){
+        preguntasAbiertas = true;
+        //recorrer el objeto de las respuestas para saber cual se eligio
+        checks.forEach((e)=>{
+            respuestaElegida = e.value; //obtiene el inciso (a,b,c...)
+
+            if(e.checked == true ){     //verifica si fue seleccionada
+                let elemento = document.getElementById(`${numTest}_estadoRespuesta`+numeroDePregunta+respuestaElegida); 
+
+                if (respuestaElegida=="a"){
+                    let textRespuesta = document.getElementById(numTest + "_respuesta" + numeroDePregunta +"a") 
+
+                    if (textRespuesta.value){
+                        valoresDeRespuestas.push([test6_preguntas[(numeroDePregunta)].pregunta,textRespuesta.value]); //agrega el valor de la pregunta segun la respuesta
+                        bandera = true;
+                        estadoRespuesta(elemento,"estadoRespuesta","✔","bien2"); 
+                    }else
+                        estadoRespuesta(elemento,"estadoRespuesta","Escribe tu compromiso","error"); 
+                    
+                }else{
+                    valoresDeRespuestas.push([test6_preguntas[(numeroDePregunta)].pregunta,"Respondió no"]);
+                    bandera = true;
+                    estadoRespuesta(elemento,"estadoRespuesta","✔","bien2"); 
+                }
+
+            }else{ //limpiar valor de la pregunta a lado de la respuesta
+                let elemento = document.getElementById(`${numTest}_estadoRespuesta`+numeroDePregunta+respuestaElegida);
+                estadoRespuesta(elemento,"","","");
+            }
+        });
+
+        //Lineas de código para mostrar el estado de la pregunta (respondida o no respondida)
+        let pregunta = document.getElementById(`${numTest}_estadoPregunta`+numeroDePregunta);
+
+        if(bandera)
+            estadoRespuesta(pregunta,"respondida","Listo","bien");
+        else{
+            estadoRespuesta(pregunta,"sinRespuesta","Elige una respuesta","error");
             testCompletado = false;
         } 
     }
@@ -267,7 +347,7 @@ function getValor(obj,valores){
 ///////////////////////////////////////////////////////////
 // mostrarResultadoGenerico() -> Coloca el resultado en la página 
 //////
-function mostrarResultado(respuestas_Formato, div_resultado, mensaje,  numTest){
+function mostrarResultado(respuestas_Formato, div_resultado, mensaje){
     if (respuestas_Formato){        
         div_resultado.className="testTerminado";
         div_resultado.innerHTML = mensaje + respuestas_Formato ;
@@ -312,3 +392,29 @@ function estadoRespuesta (elemento, clase, texto,estado){
     }     
 }
 
+
+///////////////////////////////////////////////////////////
+// fecha() -> devuelve la fecha en formato yyyy-mm-dd (ej. 2021-08-19)
+//////
+function fecha (){
+    date =  new Date();
+    y = date.getFullYear(); //Año
+    m = date.getMonth() + 1; //Mes
+    d = date.getDate(); //Día
+
+    //agrega cero para los meses del 1 al 9
+    if (m < 10) m = "0"+m;
+
+    return  y + "-" + m + "-" + d;// string con fecha 
+}
+
+///////////////////////////////////////////////////////////
+// setFecha() -> recibe enlace a un etiqueta input tipo date y
+// coloca la fecha actual, el min y max igual como la fecha actual
+//////
+function setFecha(etiqueta){
+    let f = fecha();
+    etiqueta.value = f;
+    etiqueta.setAttribute("min",f);
+    etiqueta.setAttribute("max",f);
+}
