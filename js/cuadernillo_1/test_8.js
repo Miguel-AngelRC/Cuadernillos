@@ -179,7 +179,7 @@ const test8_fecha = document.getElementById("test8_fechaInicio");
 
 // (3) 
 //Mostrar test
-mostrar_test(test8_preguntas,numtest8,test8_contenedor)
+mostrar_test(test8_preguntas,numtest8,test8_contenedor,true)
 
 // (4) 
 //Añadir evento click al boton de resultados       

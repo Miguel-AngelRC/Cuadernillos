@@ -119,7 +119,7 @@ const test3_resultadoTexto = document.getElementById(numTest3+"_texto");
 
 // (3) 
 //Mostrar test
-mostrar_test(test3_preguntas,numTest3,test3_contenedor)
+mostrar_test(test3_preguntas,numTest3,test3_contenedor,true)
 
 // (4) 
 //Añadir evento click al boton de resultados       

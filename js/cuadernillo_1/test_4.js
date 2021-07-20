@@ -107,7 +107,7 @@ const test4_resultado = document.getElementById(numtest4+"_resultado");
 
 // (3) 
 //Mostrar test
-mostrar_test(test4_preguntas,numtest4,test4_contenedor)
+mostrar_test(test4_preguntas,numtest4,test4_contenedor,false)
 
 // (4) 
 //Añadir evento click al boton de resultados       

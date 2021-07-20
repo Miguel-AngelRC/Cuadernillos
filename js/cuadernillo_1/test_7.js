@@ -177,7 +177,7 @@ const test7_fecha = document.getElementById("test7_fechaInicio");
 
 // (3) 
 //Mostrar test
-mostrar_test(test7_preguntas,numtest7,test7_contenedor)
+mostrar_test(test7_preguntas,numtest7,test7_contenedor,true)
 
 // (4) 
 //Añadir evento click al boton de resultados       

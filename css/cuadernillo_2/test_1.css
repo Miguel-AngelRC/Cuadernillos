@@ -1,0 +1,45 @@
+/****************************************/
+/*           CUADERNILLO 2              */
+/****************************************/
+
+
+/***********************
+** Área de resultado     **
+************************/
+
+/*Estilo para la lista de incisos*/
+
+#test1 .listaRespuestas{
+    display: flex;
+    margin: 5px;
+    padding: 0px;
+    width: 60%;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#test1 .listaRespuestas div{
+    margin: 1px;
+    padding: 2px, 1px;
+    width: max-content;
+    font-size: 10px;
+}
+
+
+#test1 .test1_listaRespuestas li:hover{
+    border-radius: 60px;
+    background-color: #548CA8;
+    color: white;
+}
+
+
+/*Estilo basico para resultados*/
+#test1 .testTerminado p{
+    margin: 2% auto;
+    padding: 6px;
+    border-radius: 3px;
+    text-align: center;
+    width: 50%;
+    color: white;
+    background: #FFCC29;
+}

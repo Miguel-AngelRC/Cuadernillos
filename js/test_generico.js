@@ -14,7 +14,7 @@ function addInput(idRespuesta, v){
 // mostrar_test() -> Coloca el formulario en la página
 //////
 
- function mostrar_test(preguntas,numTest,div_contenedor) {
+ function mostrar_test(preguntas,numTest,div_contenedor,mostrarInciso) {
     //Alamcena cada pregunta y sus respuestas
     const preguntasYrespuestas = [];
 
@@ -24,19 +24,36 @@ function addInput(idRespuesta, v){
     let tipoRespuesta = preguntaActual.tipoRespuesta;
 
     if( tipoRespuesta == "radio" || tipoRespuesta == "checkbox"){
-        //recorrer json de respuestas por cada pregunta
-        for (letraRespuesta in preguntaActual.respuestas) {
+        
+        if(mostrarInciso)
+            //recorrer json de respuestas por cada pregunta (Con inciso)
+            for (letraRespuesta in preguntaActual.respuestas) {
+                
+                //almacena cada respuesta en forma de imputs (radio o checkbox) dentro de una lista HTML
+                //también se agrega un div para mostrar el estado de la espuesta
+                respuestas.push(
+                `<li class="respuesta">
+                    <input class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}"  } />
+                    ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta][0]}
+                    <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
+                </li>`
+                );
+            }
+        else
+            //recorrer json de respuestas por cada pregunta (Sin inciso)
+            for (letraRespuesta in preguntaActual.respuestas) {
             
             //almacena cada respuesta en forma de imputs (radio o checkbox) dentro de una lista HTML
             //también se agrega un div para mostrar el estado de la espuesta
             respuestas.push(
             `<li class="respuesta">
                 <input class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}"  } />
-                ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta][0]}
+                 ${preguntaActual.respuestas[letraRespuesta][0]}
                 <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
             </li>`
             );
         }
+
     }else if (tipoRespuesta == "text"){
         respuestas.push( `<li class="respuesta">
                                 <textarea class="${numTest}_check${numeroDePregunta}" type="${preguntaActual.tipoRespuesta}" placeholder="Escribe tu respuesta" maxlength="2500"></textarea>
@@ -54,7 +71,7 @@ function addInput(idRespuesta, v){
 
                 respuestas.push( `<li class="respuesta">
                                     <input  class="${numTest}_check${numeroDePregunta}" type="radio" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}"  ${funcionMostrar} />
-                                    ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]}
+                                    ${preguntaActual.respuestas[letraRespuesta]}
                                     
                                     <textarea id="${numTest}_respuesta${numeroDePregunta}${letraRespuesta}" class="textAreaOculto" type="text" placeholder="Escribe tu respuesta" maxlength="2500"></textarea>
 
@@ -64,7 +81,7 @@ function addInput(idRespuesta, v){
                 let funcionOcultar =  "onClick = 'addInput(\""+numTest + "_respuesta" + numeroDePregunta +"a\" ,false)'";
                     respuestas.push( `<li class="respuesta">
                                     <input class="${numTest}_check${numeroDePregunta}" type="radio" name="${numTest}_check${numeroDePregunta}" value="${letraRespuesta}" ${funcionOcultar} } />
-                                    ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]}
+                                     ${preguntaActual.respuestas[letraRespuesta]}
 
                                     <div id="${numTest}_estadoRespuesta${numeroDePregunta}${letraRespuesta}"></div> 
                                 </li>`);
@@ -351,7 +368,9 @@ function mostrarResultado(respuestas_Formato, div_resultado, mensaje){
     if (respuestas_Formato){        
         div_resultado.className="testTerminado";
         div_resultado.innerHTML = mensaje + respuestas_Formato ;
+        console.log("que paso? 1")
       }else{
+          console.log("que paso? 2")
         div_resultado.className= "testNoTerminado";
         div_resultado.innerHTML = " <div> Debes de terminar el test para guardar las respuestas </div>"
         }

@@ -53,6 +53,10 @@ figure{
     text-align: center;
 }
 
+figure img{
+    width: 80%;
+}
+
 /***********************
 ** Estilos para listas **
 ************************/
@@ -103,6 +107,12 @@ li{
     outline: none ;
     box-shadow: rgba(0, 0, 0, 0.842) 1px 1px 10px;
 }
+
+
+input{
+    cursor: pointer;
+}
+
 /**********************************
 ** Estilos para Botón  finalizar **
 **********************************/

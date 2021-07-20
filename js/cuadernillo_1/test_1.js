@@ -72,7 +72,7 @@ const test1_resultado = document.getElementById(numTest1+"_resultado");
 
 // (3) 
 //Mostrar test
-mostrar_test(test1_preguntas,numTest1,test1_contenedor)
+mostrar_test(test1_preguntas,numTest1,test1_contenedor,true)
 
 // (4) 
 //Añadir evento click al boton de resultados       

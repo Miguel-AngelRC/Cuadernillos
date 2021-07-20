@@ -655,7 +655,7 @@ const test2_resultado = document.getElementById(numtest2+"_resultado");
 
 // (3) 
 //Mostrar test
-mostrar_test(test2_preguntas,numtest2,test2_contenedor)
+mostrar_test(test2_preguntas,numtest2,test2_contenedor,false)
 
 // (4) 
 //Añadir evento click al boton de resultados       
